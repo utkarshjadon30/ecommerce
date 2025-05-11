@@ -1,7 +1,5 @@
 // server/controller/userController.ts
-
-import { PrismaClient } from "@prisma/client"
-const prisma = new PrismaClient()
+import prisma from "~/server/utils/prismaInstance"
 
 export const findAllProduct = async () => {
   try {
@@ -23,17 +21,19 @@ export const findSingleProduct = async (productId: string) => {
 
 export const createProduct = async (data: {
   name: string
-  discription: string
+  description: string
   price: number
   stock: number
+  categoryId: string
 }) => {
   try {
     return await prisma.product.create({
       data: {
         name: data.name,
-        discription: data.discription,
+        description: data.description,
         price: data.price,
         stock: data.stock,
+        categoryId: data.categoryId,
       },
     })
   } catch (err) {
@@ -45,18 +45,20 @@ export const createProduct = async (data: {
 export const updateProduct = async (data: {
   productId: string
   name?: string
-  discription?: string
+  description?: string
   price?: number
   stock?: number
+  categoryId?: string
 }) => {
   try {
     return await prisma.product.update({
       where: { productId: data.productId },
       data: {
         name: data.name,
-        discription: data.discription,
+        description: data.description,
         price: data.price,
         stock: data.stock,
+        categoryId: data.categoryId,
       },
     })
   } catch (err) {

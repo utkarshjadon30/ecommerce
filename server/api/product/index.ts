@@ -3,7 +3,7 @@
 import {
   findAllProduct,
   createProduct,
-} from "~/server/controller/product/productController"
+} from "~/server/controller/productController"
 
 export default defineEventHandler(async (event) => {
   const method = event.method

@@ -7,31 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   userID    String   @unique @default(uuid())
   email     String   @unique
   password  String
-  role      String     @default("USER")
+  role      String   @default("USER")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("user")  // Maps to the "user" collection in MongoDB
+  @@map("user")
+}
+
+model Category {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  categoryId String   @unique @default(uuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+  
+  @@map("category")
 }
 
 model Product {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   productId   String   @unique @default(uuid())
   name        String
-  discription String
+  description String
   price       Float
   stock       Int
+  categoryId  String?  @db.ObjectId
+  category    Category? @relation(fields: [categoryId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@map("product")
 }
-
-
-

@@ -2,9 +2,16 @@ import jwt, { Secret } from "jsonwebtoken"
 const SECRET: Secret = process.env.JWT_SECRET || "super-secret"
 
 export default defineEventHandler(async (event) => {
+  console.log(getRequestURL(event).pathname)
+  const pathname = getRequestURL(event).pathname
+
+  if (!pathname.startsWith("/api/")) {
+    return
+  }
+
   if (!getRequestURL(event).pathname.startsWith("/api/auth")) {
     const { authorization } = getRequestHeaders(event)
-
+    console.log(authorization, "authorization")
     if (!authorization) {
       throw createError({
         statusCode: 401,
