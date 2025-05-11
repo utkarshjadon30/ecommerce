@@ -8,3 +8,30 @@ datasource db {
 }
 
 
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userID    String   @unique @default(uuid())
+  email     String   @unique
+  password  String
+  role      String     @default("USER")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user")  // Maps to the "user" collection in MongoDB
+}
+
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId   String   @unique @default(uuid())
+  name        String
+  discription String
+  price       Float
+  stock       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("product")
+}
+
+
+
