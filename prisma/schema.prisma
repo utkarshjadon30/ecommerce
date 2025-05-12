@@ -13,6 +13,7 @@ model User {
   email     String   @unique
   password  String
   role      String   @default("USER")
+   cart      Cart?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -40,8 +41,37 @@ model Product {
   stock       Int
   categoryId  String?  @db.ObjectId
   category    Category? @relation(fields: [categoryId], references: [id])
+   cartItems CartItem[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@map("product")
 }
+
+model Cart {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+ 
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("cart")
+}
+
+model CartItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+ 
+  cartId    String
+  cart      Cart     @relation(fields: [cartId], references: [id])
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([cartId, productId])
+  @@map("cartItem")
+}
+
