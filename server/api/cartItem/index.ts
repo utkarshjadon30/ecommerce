@@ -1,5 +1,4 @@
 import {
-  findAllCartItems,
   createCartItem,
   updateCartItem,
   deleteCartItem,
@@ -7,11 +6,6 @@ import {
 
 export default defineEventHandler(async (event) => {
   const method = event.method
-
-  if (method === "GET") {
-    const cartItems = await findAllCartItems()
-    return { data: cartItems }
-  }
 
   if (method === "POST") {
     const body = await readBody(event)
