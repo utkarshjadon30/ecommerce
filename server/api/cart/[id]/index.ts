@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     if (!category) {
       return { error: "id not found" }
     }
-    return { data: category }
+    return { data: category, message: "Cart found Successfully single" }
   }
 
   if (method === "DELETE") {

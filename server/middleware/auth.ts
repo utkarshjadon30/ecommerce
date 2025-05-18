@@ -2,7 +2,6 @@ import jwt, { Secret } from "jsonwebtoken"
 const SECRET: Secret = process.env.JWT_SECRET || "super-secret"
 
 export default defineEventHandler(async (event) => {
-  console.log(getRequestURL(event).pathname)
   const pathname = getRequestURL(event).pathname
 
   if (!pathname.startsWith("/api/")) {
@@ -11,7 +10,7 @@ export default defineEventHandler(async (event) => {
 
   if (!getRequestURL(event).pathname.startsWith("/api/auth")) {
     const { authorization } = getRequestHeaders(event)
-    console.log(authorization, "authorization")
+
     if (!authorization) {
       throw createError({
         statusCode: 401,
@@ -23,17 +22,31 @@ export default defineEventHandler(async (event) => {
 
       const payload: any = jwt.verify(token, SECRET)
 
-      console.log(payload, "payload")
-
       if (!payload) {
         throw new Error("GroupCode not found in token")
       }
+
+      const userRole = payload.role
+
+      if (pathname.startsWith("/api/admin") && userRole !== "admin") {
+        throw createError({
+          statusCode: 403,
+          message: "Access denied: Admins only",
+        })
+      }
+
+      // if (pathname.startsWith("/api/user") && userRole !== "user" && userRole !== "admin") {
+      //   throw createError({
+      //     statusCode: 403,
+      //     message: "Access denied: Users only",
+      //   })
+      // }
 
       event.context.auth = payload
     } catch (err) {
       throw createError({
         statusCode: 401,
-        message: "Unauthorized-" + err,
+        message: "Unauthorized - " + err,
       })
     }
   }

@@ -7,6 +7,18 @@
           <v-card-title class="text-center">Tracker App</v-card-title>
           <v-card-text>
             <v-text-field
+              label="First Name"
+              v-model="firstName"
+              outlined
+            ></v-text-field>
+
+            <v-text-field
+              label="Last Name"
+              v-model="lastName"
+              outlined
+            ></v-text-field>
+
+            <v-text-field
               label="Email"
               v-model="email"
               outlined
@@ -43,6 +55,9 @@ const emailError = ref("")
 const passwordError = ref("")
 const showPassword = ref(false)
 
+const firstName = useStorage("firstName")
+const lastName = useStorage("lastName")
+
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
 }
@@ -77,6 +92,8 @@ const register = async () => {
       body: JSON.stringify({
         email: email.value,
         password: password.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
       }),
     })
 

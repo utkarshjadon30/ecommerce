@@ -9,6 +9,8 @@ import {
 export default defineEventHandler(async (event) => {
   const method = event.method
   const id = event.context.params?.id
+  const query = getQuery(event)
+  const userId = query.userId as string
 
   if (!id) {
     return { error: "Product ID is required" }
@@ -16,10 +18,11 @@ export default defineEventHandler(async (event) => {
 
   if (method === "GET") {
     const product = await findSingleProduct(id)
+    console.log("preoduct from this")
     if (!product) {
       return { error: "Product not found" }
     }
-    return { data: product }
+    return { data: product, message: "Product found Successfully" }
   }
 
   if (method === "PUT") {

@@ -86,7 +86,7 @@ const login = async () => {
 
     if (response.ok) {
       token.value = data.token
-      userdata.value = data.user.email
+      userdata.value = JSON.stringify(data.user)
       navigateTo("/")
     } else {
       passwordError.value = data.message || "Invalid email or password"

@@ -20,11 +20,18 @@ export const findSingleUser = async (email: string) => {
   }
 }
 
-export const createUser = async (data: { email: string; password: string }) => {
+export const createUser = async (data: {
+  email: string
+  firstName: string
+  lastName: string
+  password: string
+}) => {
   try {
     return await prisma.user.create({
       data: {
         email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
         password: data.password,
       },
     })
@@ -34,12 +41,19 @@ export const createUser = async (data: { email: string; password: string }) => {
   }
 }
 
-export const updateUser = async (data: { userID: string; email?: string }) => {
+export const updateUser = async (data: {
+  userID: string
+  email?: string
+  firstName?: string
+  lastName?: string
+}) => {
   try {
     return await prisma.user.update({
       where: { userID: data.userID },
       data: {
         email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
       },
     })
   } catch (err) {
