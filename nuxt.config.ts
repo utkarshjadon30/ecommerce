@@ -19,6 +19,9 @@ export default defineNuxtConfig({
     //...
     "@pinia/nuxt",
   ],
+  pinia: {
+    storesDirs: ["./stores/**"],
+  },
   ssr: false,
 
   vite: {

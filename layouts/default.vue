@@ -2,6 +2,7 @@
   <v-app>
     <Header />
     <v-main>
+      <GlobalLoader />
       <slot></slot>
     </v-main>
   </v-app>

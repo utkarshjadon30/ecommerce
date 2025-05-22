@@ -37,6 +37,7 @@ apiClient.interceptors.request.use(
 )
 
 export function useApi() {
+  const loaderStore = useLoader()
   const isLoading = ref(false)
   const error = ref(null)
 
@@ -47,6 +48,7 @@ export function useApi() {
     config = {}
   ) => {
     isLoading.value = true
+    loaderStore.isLoading = true
     error.value = null
 
     try {
@@ -61,7 +63,7 @@ export function useApi() {
       error.value = err.response?.data?.message || "An error occurred"
       throw err
     } finally {
-      isLoading.value = false
+      loaderStore.isLoading = false
     }
   }
 
