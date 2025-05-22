@@ -34,8 +34,13 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: "login",
+})
 import { useStorage } from "@vueuse/core"
 import { ref } from "vue"
+
+const store = useEcommerce()
 
 const email = ref("")
 const password = ref("")
@@ -83,9 +88,10 @@ const login = async () => {
     })
 
     const data = await response.json()
+    store.userRole = data.user.role
 
     if (response.ok) {
-      token.value = data.token
+      token.value = JSON.stringify(data.token)
       userdata.value = JSON.stringify(data.user)
       navigateTo("/")
     } else {

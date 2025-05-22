@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
 
       const userRole = payload.role
 
-      if (pathname.startsWith("/api/admin") && userRole !== "admin") {
+      if (pathname.startsWith("/api/admin") && userRole !== "ADMIN") {
         throw createError({
           statusCode: 403,
           message: "Access denied: Admins only",

@@ -46,6 +46,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: "login",
+})
 import { useStorage } from "@vueuse/core"
 import { ref } from "vue"
 

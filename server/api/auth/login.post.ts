@@ -10,10 +10,18 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, statusMessage: "Invalid credentials" })
   }
 
-  const token = signJwt({ id: user.userID, email: user.email, role: user.role })
+  const { token, expiresAt } = signJwt({
+    id: user.userID,
+    email: user.email,
+    role: user.role,
+  })
+  // const decoded: any = jwt.decode(token)
 
   return {
-    token,
+    token: {
+      token,
+      expiresAt,
+    },
     user: {
       id: user.userID,
       email: user.email,
